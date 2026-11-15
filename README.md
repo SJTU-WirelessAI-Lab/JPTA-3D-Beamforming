@@ -77,13 +77,13 @@ run_all('fig5conv')   % only the equivalence and start-point checks ~40 s
 run_all('fig6')       % Fig. 6 and Fig. 7 (needs no other job)   ~70 s
 ```
 
-All parameters are in `matlab/core/jp_params_c16.m` (one struct, every entry annotated with
+All parameters are in `matlab/core/jp_params.m` (one struct, every entry annotated with
 the place in the paper it comes from). The low-level functions can be called directly after
 `run_all` has put `core/` and `alg/` on the path:
 
 ```matlab
-p = jp_params_c16();
-[az, el] = jp_users_c16(2);
+p = jp_params();
+[az, el] = jp_users(2);
 [phi, tau, info] = jp_design(p, az, el, [0.3 0.7], 'joint-ls');
 R = jp_eval(p, phi, tau, az, el, jp_block(p, [0.3 0.7]));
 ```
@@ -107,8 +107,8 @@ matlab/
   run_a6_conv.m          sections 0 and 4 of run_a6 only
   run_a7.m               Fig. 6 and Fig. 7
   core/
-    jp_params_c16.m      Table I of the paper, one struct
-    jp_users_c16.m       user directions used by Figs. 2-5
+    jp_params.m          Table I of the paper, one struct
+    jp_users.m           user directions used by Figs. 2-5
     jp_block.m           sub-band partition of eq. (9)
     jp_nu.m              steering value of eq. (9)
     jp_mvec.m            subcarrier index vector m = -M/2 .. M/2
@@ -141,7 +141,7 @@ of bug where "Fig. 2 and Fig. 3 use slightly different conventions".
 
 ## 4. Simulation parameters
 
-Table I of the paper, all in `jp_params_c16.m`:
+Table I of the paper, all in `jp_params.m`:
 
 | Symbol | Meaning | Value |
 |---|---|---|
@@ -251,7 +251,7 @@ when applied to GD (gap **G4**). All three are documented in REPORT §5.
 
 The comparison baseline is Algorithm 1 of the earlier JPTA paper (ref. [5] of this paper),
 lifted to 3-D here. It reaches 25.843 dB on a single user over the full band and beats the
-C16 analytical design on its own objective ($F=14047.0$ vs $13928.3$ at α=0.5), so it is not
+this paper's analytical design on its own objective ($F=14047.0$ vs $13928.3$ at α=0.5), so it is not
 a weakened straw man.
 
 | Claim | Paper | Reproduced |
@@ -264,7 +264,7 @@ a weakened straw man.
 The missing 1.54 dB is the one number in this paper that does not come out, and the reason is
 diagnosable: the two designs optimise different functionals ($\sum_k\sqrt{G_k}$, every
 *subcarrier* equal, versus $\sum_i\log$ of the per-user mean, every *user* equal). Judged by
-its own functional the SOTA wins at every α; judged by the C16 functional it loses below
+its own functional the SOTA wins at every α; judged by the functional of this paper it loses below
 α = 0.25. "The SOTA is 1.54 dB behind" is therefore partly "a design scored by someone else's
 metric". What remains cannot be pinned down, because the paper says "compute $\tau_n$ using
 either (8a) or Lemma 1" and the two readings differ by 8 dB in this problem (gap **G7**).

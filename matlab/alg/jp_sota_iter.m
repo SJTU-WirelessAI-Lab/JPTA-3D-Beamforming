@@ -1,9 +1,9 @@
 function [phi, tau, info] = jp_sota_iter(p, az, el, alpha, opt)
-% SOTA baseline for C16 Fig.6 / Fig.7: Algorithm 1 of
+% SOTA baseline for Fig.6 / Fig.7: Algorithm 1 of
 %   V. V. Ratnam, J. Mo, A. Alammouri, B. L. Ng, J. Zhang, A. F. Molisch,
 %   "Joint Phase-Time Arrays: A Paradigm for Frequency-Dependent Analog
-%   Beamforming in 6G", IEEE Access, vol. 10, 2022   (= C16's ref. [5]),
-% extended to the 3D array of C16 exactly as C16 Sec. IV-B describes
+%   Beamforming in 6G", IEEE Access, vol. 10, 2022   (= this paper's ref. [5]),
+% extended to the 3D array of this paper exactly as Sec. IV-B describes
 % ("we have extended their iterative algorithm to 3D").
 %
 % ---------------------------------------------------------------------------
@@ -21,22 +21,22 @@ function [phi, tau, info] = jp_sota_iter(p, az, el, alpha, opt)
 %                 fit of the phase ramp, followed by clipping to the TTD range (9)-(10).
 %
 % ---------------------------------------------------------------------------
-% THE 3D EXTENSION (the only degrees of freedom C16 leaves open)
+% THE 3D EXTENSION (the only degrees of freedom this paper leaves open)
 %
-%  (i)  one TTD per antenna element, N = Naz*Nel (C16's hardware assumption:
+%  (i)  one TTD per antenna element, N = Naz*Nel (this paper's hardware assumption:
 %       "the number of delay elements increases linearly with the number of
 %       antennas in both azimuth and elevation"), so M_n = {n} and the
 %       per-element sum over m in M_n collapses to a single term.
 %  (ii) the target for subcarrier k is the 3D steering vector of the user that
-%       owns k:  b_k = a(f_k, theta_i(k)) / sqrt(N), i.e. exactly C16's eq. (3)
-%       array response, so that |bbar_k^H T P d_k| = sqrt(G_k) with G_k = C16 eq. (3).
+%       owns k:  b_k = a(f_k, theta_i(k)) / sqrt(N), i.e. exactly this paper's eq. (3)
+%       array response, so that |bbar_k^H T P d_k| = sqrt(G_k) with G_k = eq. (3).
 %       [5] only defines b_k for its two single-user beam behaviours; the
 %       multi-user FDM target is the natural extension.
 % (iii) omega_k = 1.
 %
 % CONSEQUENCE THAT MATTERS: with angle(a_k) free per subcarrier, the quantity
 % [5] actually maximises is  sum_k sqrt(G_k)  -- an equal weight per *subcarrier*.
-% C16 maximises sum_i log(mean_{k in F_i} G_k) -- an equal weight per *user*.
+% this paper maximises sum_i log(mean_{k in F_i} G_k) -- an equal weight per *user*.
 % At small alpha the two differ by a lot; see run_a7.m part 3.
 %
 % opt fields
@@ -128,7 +128,7 @@ for it = 1:opt.maxIter
 
     % ---- eq.(8b) : phase shifters ---------------------------------------
     % SIGN CONVENTION. [5] writes the TTD term as exp(-j2pi f_k tau_n) while
-    % C16 eq.(2) writes it as exp(+j2pi f_k tau_n).  Eqs. (7)-(11) of [5] are
+    % eq.(2) writes it as exp(+j2pi f_k tau_n).  Eqs. (7)-(11) of [5] are
     % mutually consistent only inside their own convention, so the whole
     % iteration is run in [5]'s convention (E below carries the minus) and the
     % result is mapped back at the end of the function.
@@ -139,7 +139,7 @@ for it = 1:opt.maxIter
     % opt.freePhase = false keeps angle(a_k) = 0, i.e. it drops the free
     % per-subcarrier phase of [5] eq.(5)/(11) and turns Algorithm 1 into a
     % plain alternating LS on a fixed target.  This is NOT what [5] does, but
-    % it is the variant that reproduces C16's stated 1.54 dB gap -- see run_a7.
+    % it is the variant that reproduces this paper's stated 1.54 dB gap -- see run_a7.
     S    = sum( conj(bn).*E.*exp(1j*phi), 1 );   % 1 x Nk, = sqrt(G_k)
     if opt.freePhase
         al = angle(S);
@@ -161,10 +161,10 @@ info.taumode = opt.taumode;
 info.tauLSspan_ns = (max(tau)-min(tau))*1e9;
 info.nWrapped = nMod;
 
-% describe the achieved beam with the *C16* metric (done by the caller with
+% describe the achieved beam with the target paper's metric (done by the caller with
 % jp_eval, which recomputes G from the hardware model, so no state is hidden)
 %
-% Map [5]'s convention back to C16's: tau_C16 = tau_max_5 - tau_5 turns
+% Map [5]'s convention back to the target paper's: tau_paper = tau_max_5 - tau_5 turns
 % exp(-j2pi f tau) into exp(+j2pi f tau') times the *common* factor
 % exp(+j2pi f tau_max_5).  A factor common to all elements multiplies every
 % subcarrier's array sum by a pure phase, so |G_k| is untouched, and the

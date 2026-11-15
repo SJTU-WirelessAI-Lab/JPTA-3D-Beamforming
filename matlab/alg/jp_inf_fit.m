@@ -1,6 +1,6 @@
 function [x1, x2] = jp_inf_fit(m, B)
 % Infinity-norm fit  min_{x1,x2} || [1 m]*[x1;x2] - b ||_inf  for each column
-% of B (C16 Sec. III-A-2).  The paper suggests an LP toolbox; the remote
+% of B (Sec. III-A-2).  The paper suggests an LP toolbox; the remote
 % compute node has no Optimization Toolbox, so this uses the equivalent
 % one-dimensional convex formulation, which is exact and needs only core
 % MATLAB:

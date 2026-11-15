@@ -1,9 +1,9 @@
-C16 A6 (Fig.5): greedy Alg.1 + Adam GD   [nanyangnorth]
+A6 (Fig.5): greedy Alg.1 + Adam GD   [nanyangnorth]
 
 equivalence: incremental vs literal Alg.1, joint diff 3.55e-14, sep diff 0.00e+00 (Gl units)
 Fig5a per-user max |mine-paper|: greedy j 0.25, GD j 0.39, greedy s 0.60, GD s 1.56 dB
 Fig5a joint delta over joint-LS: greedy +0.32, GD +0.48 (paper +2.26 / +2.11)
 Fig5b mean|GD-greedy| joint 0.088 dB, sep 0.194 dB (paper: comparable)
-runtime: greedy 9.93 s (2.48 s/pass, 4 passes), GD 6.04 s (0.031 s/it, 194 it)
-ratio optimised 1.6x; literal Alg.1 vs GD 219x (paper ~250x)
+runtime: greedy 9.99 s (2.50 s/pass, 4 passes), GD 6.12 s (0.032 s/it, 194 it)
+ratio optimised 1.6x; literal Alg.1 vs GD 182x (paper ~250x)
 baseline needed for +2.26 dB: 20.45 dB; my joint LS 22.39, sep LS 20.56

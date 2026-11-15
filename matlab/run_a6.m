@@ -1,5 +1,5 @@
 function run_a6()
-% A6 of the repro plan = C16 Fig. 5 (Sec. IV-B): greedy algorithm (Alg. 1)
+% A6 of the repro plan = Fig. 5 (Sec. IV-B): greedy algorithm (Alg. 1)
 % and Adam gradient descent (Sec. III-D), both initialised from the LS
 % solution, for the joint and the separated parameterisation.
 %
@@ -22,12 +22,12 @@ addpath(fullfile(here,'core'));
 addpath(fullfile(here,'alg'));
 out = fullfile(here,'out');  if ~exist(out,'dir'), mkdir(out); end
 
-p = jp_params_c16();
+p = jp_params();
 ZETA_G = 1e-4;               % greedy: Alg.1 line 18, per pass
 oG = struct('zeta',ZETA_G,'maxIter',40);
 oD = struct('mode','joint','lr',0.1,'zeta',1e-5,'win',20,'maxIter',600);
 
-fprintf('===== A6 : C16 Fig.5, greedy (Alg.1) + Adam GD =====\n');
+fprintf('===== A6 : Fig.5, greedy (Alg.1) + Adam GD =====\n');
 fprintf('array %dx%d = %d elements, fc = %.0f GHz, BW = %.0f MHz, M+1 = %d\n', ...
         p.Naz, p.Nel, p.Nelem, p.fc/1e9, p.BW/1e6, p.M+1);
 fprintf('greedy: tau %.1f ns step / %d pts, phase %d bits / %d pts, zeta %g\n', ...
@@ -37,7 +37,7 @@ fprintf('GD    : Adam lr %.2f (rad), zeta %g over a %d-iteration window\n\n', ..
 
 %% ---------------- Part 0 : fast vs literal Algorithm 1 ----------------
 ps = p;  ps.Naz = 6;  ps.Nel = 8;  ps.Nelem = ps.Naz*ps.Nel;
-NuS = 4;  [azS, elS] = jp_users_c16(NuS);  aS = ones(1,NuS)/NuS;
+NuS = 4;  [azS, elS] = jp_users(NuS);  aS = ones(1,NuS)/NuS;
 fprintf('--- Part 0: incremental vs literal Algorithm 1 (array %dx%d, 3 passes) ---\n', ps.Naz, ps.Nel);
 chk = struct();
 for md = {'joint','sep'}
@@ -52,7 +52,7 @@ for md = {'joint','sep'}
 end
 
 %% ---------------- Part 1 : Fig. 5(a) ----------------
-Nu = 4;  [az, el] = jp_users_c16(Nu);  alpha = ones(1,Nu)/Nu;
+Nu = 4;  [az, el] = jp_users(Nu);  alpha = ones(1,Nu)/Nu;
 blk = jp_block(p, alpha);
 fprintf('\n--- Fig.5(a): Nu = %d, equal BW (alpha_i = %.2f) ---\n', Nu, alpha(1));
 
@@ -127,14 +127,14 @@ for k = kshow
          'MarkerSize',7, 'MarkerFaceColor', cl(k,:));
 end
 xlabel('User index');  ylabel('Average gain of the user (dB)');
-title(sprintf('C16 Fig.5(a) reproduction: N_u = %d, equal BW', Nu));
+title(sprintf('Fig.5(a) reproduction: N_u = %d, equal BW', Nu));
 legend(names(kshow), 'Location','southeast');
 xlim([0.7 Nu+0.3]);  ylim([18 25.6]);
 print(fg, fullfile(out,'a6_fig5a_gain_per_user.png'), '-dpng', '-r180');
 close(fg);
 
 %% ---------------- Part 2 : Fig. 5(b) ----------------
-Nu2 = 2;  [az2, el2] = jp_users_c16(Nu2);
+Nu2 = 2;  [az2, el2] = jp_users(Nu2);
 avec = 0.10:0.05:0.50;
 lbl2 = {'LS joint','greedy joint','GD joint','LS sep','greedy sep','GD sep'};
 G5b = nan(numel(lbl2), numel(avec));
@@ -186,7 +186,7 @@ for k = 1:numel(lbl2)
 end
 xlabel('Bandwidth allocation ratio \alpha (user 1)');
 ylabel('Average gain of the users (dB)');
-title(sprintf('C16 Fig.5(b) reproduction: N_u = %d, various BW allocations', Nu2));
+title(sprintf('Fig.5(b) reproduction: N_u = %d, various BW allocations', Nu2));
 legend(lbl2, 'Location','southeast');
 ylim([18 25.6]);
 print(fg, fullfile(out,'a6_fig5b_gain_vs_alpha.png'), '-dpng', '-r180');
@@ -260,7 +260,7 @@ end
 fclose(fid);
 
 fid = fopen(fullfile(out,'a6_summary.txt'),'w');
-fprintf(fid,'C16 A6 (Fig.5): greedy Alg.1 + Adam GD   [nanyangnorth]\n\n');
+fprintf(fid,'A6 (Fig.5): greedy Alg.1 + Adam GD   [nanyangnorth]\n\n');
 fprintf(fid,'equivalence: incremental vs literal Alg.1, joint diff %.2e, sep diff %.2e (Gl units)\n', ...
         chk.joint.diff, chk.sep.diff);
 fprintf(fid,'Fig5a per-user max |mine-paper|: greedy j %.2f, GD j %.2f, greedy s %.2f, GD s %.2f dB\n', ...

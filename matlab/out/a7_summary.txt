@@ -1,9 +1,9 @@
-C16 A7 (Fig.6 + Fig.7): SOTA = Algorithm 1 of [5], extended to 3D   [nanyangnorth]
+A7 (Fig.6 + Fig.7): SOTA = Algorithm 1 of [5], extended to 3D   [nanyangnorth]
 
 SOTA setup: N = 384 TTDs (one per element), max-iter 10, omega_k = 1, free angle(a_k)
 unit check: 1 user, whole band -> mean G 25.821 dB (ideal 25.843), worst subcarrier 25.798 dB
 unit check: common tau shift 37 ns changes gain by 1.7e-13 dB (must be 0)
-unit check: F(SOTA) 14047.0 >= F(C16 LS) 13928.3 on the SOTA metric (alpha=0.5)
+unit check: F(SOTA) 14047.0 >= F(this paper's LS) 13928.3 on the SOTA metric (alpha=0.5)
 
 Fig.6 average gain (dB), rows = alpha 0.10..0.50 step 0.05:
   Joint LS           [21.975 23.345 24.129 24.48 24.708 24.848 24.901 24.935 24.944]
@@ -18,7 +18,7 @@ Fig.6 average gain (dB), rows = alpha 0.10..0.50 step 0.05:
 claim 1 "up to 1.54 dB for alpha<=0.35": ours +0.33 dB (Lemma 1) / 8.71 dB ((8a))
 claim 2 "converge for alpha>0.35": joint spread [0.22 0.24 0.35] dB  -> reproduced
 claim 3 "alpha<=0.2: GDsep beats all but GDjoint": true
-  (except joint greedy, which C16 omits from that sentence)
+  (except joint greedy, which this paper omits from that sentence)
 
 SOTA definition sensitivity (Gl/Nu, dB):
   variant                              a=0.10   a=0.15   a=0.25   a=0.50
@@ -27,12 +27,12 @@ SOTA definition sensitivity (Gl/Nu, dB):
   Lemma1, no free angle(a_k)           21.577   21.931   22.380   22.625
   (8a) line search, 2.5 ns grid        13.269   19.648   22.685   24.437
   (8a) line search, 0.25 ns grid       16.963   19.377   22.752   24.506
-  C16 joint LS                         21.975   23.345   24.480   24.944
-gap (C16 joint LS - SOTA), positive = C16 wins:
+  this paper joint LS                  21.975   23.345   24.480   24.944
+gap (this paper joint LS - SOTA), positive = this paper wins:
   Lemma1, eq.(10a) wrap  [faithful]      0.33     0.10    -0.10    -0.08
   Lemma1, clip to range                  0.57     0.38     0.04    -0.05
   Lemma1, no free angle(a_k)             0.40     1.41     2.10     2.32
   (8a) line search, 2.5 ns grid          8.71     3.70     1.80     0.51
   (8a) line search, 0.25 ns grid         5.01     3.97     1.73     0.44
 
-runtime mean: GD 1.57 s, SOTA 0.13 s, ratio 12.5x  (paper 1.05/5.80 = 5.5x)
+runtime mean: GD 1.56 s, SOTA 0.13 s, ratio 12.4x  (paper 1.05/5.80 = 5.5x)

@@ -69,12 +69,12 @@ run_all('fig5conv')   % 只做等价性校验与起点诊断       ~40 s
 run_all('fig6')       % Fig.6与Fig.7                ~70 s
 ```
 
-全部参数都在`matlab/core/jp_params_c16.m`（单个结构体，每个字段都标注了它在论文中的出处）。
+全部参数都在`matlab/core/jp_params.m`（单个结构体，每个字段都标注了它在论文中的出处）。
 `run_all`会把`core/`与`alg/`加入路径，之后可直接调用底层函数：
 
 ```matlab
-p = jp_params_c16();
-[az, el] = jp_users_c16(2);
+p = jp_params();
+[az, el] = jp_users(2);
 [phi, tau, info] = jp_design(p, az, el, [0.3 0.7], 'joint-ls');
 R = jp_eval(p, phi, tau, az, el, jp_block(p, [0.3 0.7]));
 ```
@@ -98,8 +98,8 @@ matlab/
   run_a6_conv.m          只做run_a6的第0段与第4段
   run_a7.m               Fig.6与Fig.7
   core/
-    jp_params_c16.m      论文Table I，单个结构体
-    jp_users_c16.m       Fig.2–5所用的用户方向
+    jp_params.m          论文Table I，单个结构体
+    jp_users.m           Fig.2–5所用的用户方向
     jp_block.m           式(9)的子带划分
     jp_nu.m              式(9)的导向值
     jp_mvec.m            子载波序号向量m = -M/2 .. M/2
@@ -110,7 +110,7 @@ matlab/
     jp_finalize.m        由(x1,x2)解出量化的相移与时延
     jp_design.m          分派：joint-ls | joint-inf | sep-ls | sep-inf
     jp_eval.m            逐用户增益，式(5)的Gl
-    jp_filldef.m          选项结构体合并
+    jp_filldef.m         选项结构体合并
   alg/
     jp_ls_fit.m          式(11)-(13)的闭式最小二乘
     jp_inf_fit.m         ∞-范数拟合，等价的一维凸形式
@@ -131,7 +131,7 @@ REPORT.md                英文版报告
 
 ## 4 仿真参数
 
-论文Table I，全部落在`jp_params_c16.m`：
+论文Table I，全部落在`jp_params.m`：
 
 | 符号 | 含义 | 取值 |
 |---|---|---|
@@ -234,7 +234,7 @@ Algorithm 1的收敛判据直接用在GD上会在第一次迭代就判收敛（�
 ### 5.5 Fig.6与Fig.7：与SOTA对比
 
 对照基线是本论文文献[5]中那篇JPTA原始论文的Algorithm 1，这里升维到3D。它在单用户全带上
-拿到25.843 dB，并在自己的泛函上优于C16的解析解（$\alpha=0.5$时$F=14047.0$ vs $13928.3$），
+拿到25.843 dB，并在自己的泛函上优于本文的解析解（$\alpha=0.5$时$F=14047.0$ vs $13928.3$），
 所以不是一个被做弱的对手。
 
 | 判据 | 论文 | 复现 |
@@ -246,7 +246,7 @@ Algorithm 1的收敛判据直接用在GD上会在第一次迭代就判收敛（�
 
 那1.54 dB是本文唯一复现不出的数字，但原因可诊断：两个设计优化的是不同泛函
 （$\sum_k\sqrt{G_k}$，每个*子载波*等权 vs $\sum_i\log$逐用户均值，每个*用户*等权）。
-按自己的泛函评，SOTA每一档都赢；按C16的泛函评，它在$\alpha<0.25$输。所以"落后1.54 dB"里
+按自己的泛函评，SOTA每一档都赢；按本文的泛函评，它在$\alpha<0.25$输。所以"落后1.54 dB"里
 一部分是"用A的尺子量B的设计"。剩下的部分定不下来，因为论文只写"用式(8a)或Lemma 1计算
 $\tau_n$"，而这两条路在本问题里相差8 dB（缺口**G7**）。
 

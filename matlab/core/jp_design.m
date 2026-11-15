@@ -1,5 +1,5 @@
 function [phi, tau, info] = jp_design(p, az, el, alpha, mode)
-% Solve the JPTA beam design problem of C16 eq. (6) analytically.
+% Solve the JPTA beam design problem of eq. (6) analytically.
 %
 % mode:
 %   'joint-ls'  : joint phase/delay, least squares      (Sec. III-A-1, eq. 11-13)
@@ -17,7 +17,7 @@ Nu  = numel(az);
 
 switch mode
     case {'joint-ls','joint-inf'}
-        % ---- C16 Sec. III-A : one equation per antenna element --------
+        % ---- Sec. III-A : one equation per antenna element --------
         if isfield(p,'nowrap') && p.nowrap
             K = zeros(p.Naz, p.Nel, Nu);            % no 2*pi*K unwrapping
         else
@@ -37,7 +37,7 @@ switch mode
         info.x1 = x1;  info.x2 = x2;                % raw LS solution
 
     case {'sep-ls','sep-inf'}
-        % ---- C16 Sec. III-B : azimuth and elevation designed separately
+        % ---- Sec. III-B : azimuth and elevation designed separately
         nu_az = cell(1,Nu);  nu_el = cell(1,Nu);
         for i = 1:Nu
             a = az(i)*pi/180;  e = el(i)*pi/180;

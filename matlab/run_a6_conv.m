@@ -6,13 +6,13 @@ function run_a6_conv()
 here = fileparts(mfilename('fullpath'));
 addpath(fullfile(here,'core'));
 addpath(fullfile(here,'alg'));
-p = jp_params_c16();
+p = jp_params();
 
 fprintf('=== A: LS convention, joint, Nu = 4 equal BW ===\n');
 fprintf('  convention |  u1     u2     u3     u4   |  mean  | greedy mean | delta\n');
 for nowrap = [false true]
     q = p;  q.nowrap = nowrap;
-    Nu = 4;  [az, el] = jp_users_c16(Nu);  al = ones(1,Nu)/Nu;
+    Nu = 4;  [az, el] = jp_users(Nu);  al = ones(1,Nu)/Nu;
     blk = jp_block(q, al);
     [ph, ta] = jp_design(q, az, el, al, 'joint-ls');
     R = jp_eval(q, ph, ta, az, el, blk);
@@ -28,7 +28,7 @@ for nowrap = [false true]
 end
 
 fprintf('\n=== A2: LS convention, Nu = 2, alpha = 0.10 (paper Fig.2a: 22.1 / 18.1) ===\n');
-Nu = 2;  [az2, el2] = jp_users_c16(Nu);  a2 = [0.10 0.90];
+Nu = 2;  [az2, el2] = jp_users(Nu);  a2 = [0.10 0.90];
 blk2 = jp_block(p, a2);
 for nowrap = [false true]
     q = p;  q.nowrap = nowrap;
@@ -42,7 +42,7 @@ for nowrap = [false true]
 end
 
 fprintf('\n=== B: GD smoke test, Nu = 4 equal BW (greedy target 22.709) ===\n');
-Nu = 4;  [az, el] = jp_users_c16(Nu);  al = ones(1,Nu)/Nu;
+Nu = 4;  [az, el] = jp_users(Nu);  al = ones(1,Nu)/Nu;
 blk = jp_block(p, al);
 [ph, ta] = jp_design(p, az, el, al, 'joint-ls');
 R = jp_eval(p, ph, ta, az, el, blk);

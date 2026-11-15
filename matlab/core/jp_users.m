@@ -1,5 +1,5 @@
-function [az, el] = jp_users_c16(Nu)
-% C16 Sec. IV: user i (i = 0..Nu-1) sits at
+function [az, el] = jp_users(Nu)
+% Sec. IV: user i (i = 0..Nu-1) sits at
 %   theta_az,i = -60 + i*120/(Nu-1)  [deg]
 %   theta_el,i =  90 + i*30 /(Nu-1)  [deg]
 % Note the paper's formula is undefined for Nu = 1; we then use broadside

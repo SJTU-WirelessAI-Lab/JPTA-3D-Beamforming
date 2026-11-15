@@ -1,5 +1,5 @@
 function run_a3()
-% A3 of the repro plan = C16 Fig. 2(b): per-user average gain for Nu = 5 with
+% A3 of the repro plan = Fig. 2(b): per-user average gain for Nu = 5 with
 % an unequal bandwidth allocation alpha = [0.3 0.2 0.15 0.1 0.25].
 % Paper's claims (max gain difference among users):
 %   joint inf-norm 3.0 dB   vs  joint LS 5.0 dB
@@ -10,9 +10,9 @@ addpath(fullfile(here,'core'));
 addpath(fullfile(here,'alg'));
 out = fullfile(here,'out'); if ~exist(out,'dir'), mkdir(out); end
 
-p  = jp_params_c16();
+p  = jp_params();
 Nu = 5;
-[az, el] = jp_users_c16(Nu);
+[az, el] = jp_users(Nu);
 a  = [0.3 0.2 0.15 0.1 0.25];
 bl = jp_block(p, a);
 
@@ -20,7 +20,7 @@ modes = {'joint-inf','joint-ls','sep-inf','sep-ls'};
 lbl   = {'Joint Inf Norm','Joint LS [10]','Separated Inf Norm','Separated LS [10]'};
 claim = [3.0 5.0 3.2 5.4];
 
-fprintf('===== A3 : C16 Fig.2(b), Nu = %d, alpha = [%s] =====\n', Nu, num2str(a));
+fprintf('===== A3 : Fig.2(b), Nu = %d, alpha = [%s] =====\n', Nu, num2str(a));
 fprintf('users: az = [%s], el = [%s] deg\n\n', num2str(az), num2str(el));
 
 gdb = zeros(numel(modes), Nu);
@@ -48,7 +48,7 @@ for mi = 1:numel(modes)
          'MarkerSize',7, 'MarkerFaceColor', cl(mi,:));
 end
 xlabel('User index'); ylabel('Average gain (dB)');
-title(sprintf('C16 Fig.2(b) reproduction: N_u=%d, \\alpha=[%s]', Nu, num2str(a)));
+title(sprintf('Fig.2(b) reproduction: N_u=%d, \\alpha=[%s]', Nu, num2str(a)));
 legend(lbl,'Location','northeast');
 xlim([0.8 5.2]); ylim([15 26]);
 print(fg, fullfile(out,'a3_fairness.png'), '-dpng', '-r180');

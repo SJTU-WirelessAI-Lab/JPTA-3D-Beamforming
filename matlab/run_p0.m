@@ -1,14 +1,14 @@
 function run_p0()
-% P0 self-check of the C16 core.  All assertions must pass before any
+% P0 self-check of this paper's core.  All assertions must pass before any
 % experiment is allowed to run (frozen-kernel policy of the repro plan).
 
 here = fileparts(mfilename('fullpath'));
 addpath(fullfile(here,'core'));
 addpath(fullfile(here,'alg'));
 
-fprintf('===== P0 SELF-CHECK : C16 core =====\n');
+fprintf('===== P0 SELF-CHECK : this paper core =====\n');
 fprintf('matlab %s on %s\n', version, computer);
-p = jp_params_c16();
+p = jp_params();
 fprintf('Naz x Nel = %d x %d, Nelem = %d, Gmax = %.3f dB\n\n', p.Naz, p.Nel, p.Nelem, p.Gmax_dB);
 
 m = jp_mvec(p);  f = p.fc + m*p.df;
@@ -29,7 +29,7 @@ T(end+1,:) = {'P0-1 single-user degenerates to PAA', c1, sprintf('tau=%.1e, gain
 %% --- check 2: no solution may exceed 10*log10(Naz*Nel) ---
 worst = -inf;  worstcase = '';
 for Nu = [1 2 4 5]
-    [azv, elv] = jp_users_c16(Nu);
+    [azv, elv] = jp_users(Nu);
     al = ones(1,Nu)/Nu;
     modes = {'joint-ls','sep-ls','joint-inf','sep-inf'};
     for mi = 1:numel(modes)
@@ -64,7 +64,7 @@ T(end+1,:) = {'P0-3 ULA: joint == separated', c3, sprintf('dGain=%.2e dB', d3)};
 %% --- check 4: delay fits the hardware range for the default scenarios ---
 ok = true;  spans = [];
 for Nu = [2 4 8 16]
-    [azv, elv] = jp_users_c16(Nu);
+    [azv, elv] = jp_users(Nu);
     [~, ~, inf4] = jp_design(p, azv, elv, ones(1,Nu)/Nu, 'joint-ls');
     spans(end+1) = inf4.tau_span_raw*1e9; %#ok<AGROW>
     ok = ok && (inf4.tau_span_raw <= p.tau_max);

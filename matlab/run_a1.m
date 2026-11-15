@@ -1,5 +1,5 @@
 function run_a1()
-% A1 of the repro plan = C16 Fig. 2(a): average user gain vs bandwidth
+% A1 of the repro plan = Fig. 2(a): average user gain vs bandwidth
 % allocation ratio for Nu = 2 users, comparing joint / separated designs
 % solved with least squares or the infinity norm.
 %
@@ -13,14 +13,14 @@ addpath(fullfile(here,'core'));
 addpath(fullfile(here,'alg'));
 out = fullfile(here,'out'); if ~exist(out,'dir'), mkdir(out); end
 
-p   = jp_params_c16();
+p   = jp_params();
 Nu  = 2;
-[az, el] = jp_users_c16(Nu);
+[az, el] = jp_users(Nu);
 avec = 0.10:0.05:0.50;
 modes = {'joint-inf','joint-ls','sep-inf','sep-ls'};
 lbl   = {'Joint Inf Norm','Joint LS [10]','Separated Inf Norm','Separated LS [10]'};
 
-fprintf('===== A1 : C16 Fig.2(a), Nu = %d =====\n', Nu);
+fprintf('===== A1 : Fig.2(a), Nu = %d =====\n', Nu);
 fprintf('users at az = [%s] deg, el = [%s] deg\n', num2str(az), num2str(el));
 fprintf('alpha grid: 0.10:0.05:0.50 (user 2 gets 1-alpha)\n\n');
 
@@ -73,7 +73,7 @@ for mi = [1 2 3 4]
 end
 xlabel('Bandwidth allocation ratio \alpha (user 1)');
 ylabel('Average gain of the users (dB)');
-title(sprintf('C16 Fig.2(a) reproduction: N_u = %d, %d\\times%d JPTA', Nu, p.Naz, p.Nel));
+title(sprintf('Fig.2(a) reproduction: N_u = %d, %d\\times%d JPTA', Nu, p.Naz, p.Nel));
 legend(lbl, 'Location','southeast');
 ylim([18 26]); xlim([0.08 0.52]);
 print(fg, fullfile(out,'a1_gain_vs_alpha.png'), '-dpng', '-r180');

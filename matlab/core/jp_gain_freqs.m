@@ -1,5 +1,5 @@
 function G = jp_gain_freqs(p, phi, tau, az_deg, el_deg, fvec)
-% Beamforming gain (linear) of C16 eq. (3) over a vector of frequencies.
+% Beamforming gain (linear) of eq. (3) over a vector of frequencies.
 %
 %   G(f_m) = | sum_{y,z} exp( j*( phi_yz + 2*pi*f_m*tau_yz - Omega_yz(f_m) ) ) |^2 / (Naz*Nel)
 %

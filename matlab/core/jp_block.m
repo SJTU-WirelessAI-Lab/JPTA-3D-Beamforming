@@ -1,5 +1,5 @@
 function [blk, edges] = jp_block(p, alpha)
-% Bandwidth partition of C16 Sec. III-A: user i gets the subcarriers in
+% Bandwidth partition , Sec. III-A: user i gets the subcarriers in
 % [f_{alpha_{i-1}(M+1)}, f_{alpha_i (M+1)}), i.e. a contiguous block of
 % floor/round(alpha_i*(M+1)) subcarriers.
 %

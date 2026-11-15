@@ -290,11 +290,11 @@ The baseline is the alternating optimisation of the earlier JPTA paper, lifted f
 3-D here: three steps (delays by Lemma 1 or by the line search of eq. (8a); phases by
 eq. (8b); a free per-subcarrier phase by eq. (11)).
 
-### 8.1 The functional is not the same as C16's
+### 8.1 The two functionals are not the same
 
 $$\text{[5]: } F=\sum_k\sqrt{G_k}\ \text{(every \emph{subcarrier} equal)}
 \qquad\text{vs}\qquad
-\text{C16: } G_l=\sum_i 10\log_{10}\Big(\tfrac1{|F_i|}\sum_{k\in F_i}G_k\Big)\ \text{(every \emph{user} equal)}$$
+\text{this paper: } G_l=\sum_i 10\log_{10}\Big(\tfrac1{|F_i|}\sum_{k\in F_i}G_k\Big)\ \text{(every \emph{user} equal)}$$
 
 This one difference explains §8.3 in full.
 
@@ -303,18 +303,18 @@ This one difference explains §8.3 in full.
 | # | Freedom | Choice | Reason |
 |---|---|---|---|
 | 1 | number of TTD units $N$ and the grouping | $N=N_{az}N_{el}=384$, one per element | this paper's hardware model; [5] allows $N\le M$, and $N=M$ is both the most favourable and the fairest reading |
-| 2 | target $\bar b_k$ under multi-user FDM | $\bar b_k=a(f_k,\theta_{i(k)})/\sqrt{N_{az}N_{el}}$, the steering vector of the user owning that subcarrier | [5] only defines its own two single-user beams; this is the only self-consistent extension and it ties $|\bar b_k^\dagger TPd_k|=\sqrt{G_k}$ to C16 eq. (3) |
+| 2 | target $\bar b_k$ under multi-user FDM | $\bar b_k=a(f_k,\theta_{i(k)})/\sqrt{N_{az}N_{el}}$, the steering vector of the user owning that subcarrier | [5] only defines its own two single-user beams; this is the only self-consistent extension and it ties $|\bar b_k^\dagger TPd_k|=\sqrt{G_k}$ to eq. (3) |
 | 3 | weights $\omega_k$ | all 1 | [5] allows any non-negative weights |
 
 ### 8.3 Two pitfalls that only show up numerically
 
-**(a) The two papers differ by a sign in the delay term.** C16 eq. (2) writes
+**(a) The two papers differ by a sign in the delay term.** Eq. (2) of this paper writes
 $e^{+j2\pi f_m\tau}$, [5] eq. (1) writes $e^{-j2\pi f_k\tau}$. Steps (7), (8a), (8b), (11) are
 each self-consistent only inside their own convention. Mixing them gives a design that
 converges every round and is 7.9 dB wrong: in the first version $F$ climbed from 9679 to
-14047 (its own functional behaving perfectly), while the C16 evaluation gave **−7.88 dB**.
+14047 (its own functional behaving perfectly), while the evaluation of this paper gave **−7.88 dB**.
 Fix: run the whole iteration in [5]'s convention and map back at the end,
-$\tau^{\text{C16}}=\max_n\tau_n^{[5]}-\tau_n^{[5]}$, which multiplies the response by a
+$\tau^{\text{this paper}}=\max_n\tau_n^{[5]}-\tau_n^{[5]}$, which multiplies the response by a
 common $e^{+j2\pi f\max\tau^{[5]}}$ — a pure phase per subcarrier, so $|G_k|$ is untouched and
 $\tau'\ge0$ is realisable.
 
@@ -329,10 +329,10 @@ the unknown with the matrix $[1,-m]$ brings the condition number to $10^4$.
 |---|---|---|
 | 1 | single user, full band: Alg. 1 must reach $10\log_{10}384=25.843$ dB (also tests the $f_k/f_c$ squint on both the target and the evaluation side) | PASS: broadside 25.843 dB; sector edge $(-60^\circ,105^\circ)$ 25.821 dB, worst subcarrier 25.798 dB |
 | 2 | shifting all delays by 37 ns does not change the gain | PASS: $\max\vert\Delta G\vert=1.7\times10^{-13}$ dB |
-| 3 | on its own functional at α=0.5 it must not be worse than the C16 LS design | PASS: 14047.0 vs 13928.3 |
+| 3 | on its own functional at α=0.5 it must not be worse than this paper's LS design | PASS: 14047.0 vs 13928.3 |
 | 4 | is 10 iterations enough ([5] uses 10)? | converged at round 3; rounds 4–10 unchanged; 30 rounds identical |
 
-Check 3 is the important one: the baseline is not a straw man — it beats the C16 analytical
+Check 3 is the important one: the baseline is not a straw man — it beats this paper's analytical
 solution on its own objective, so the small gap in §8.3 is not an implementation artefact.
 
 ### 8.5 Fig. 6, point by point ($N_u=2$, α = 0.10:0.05:0.50)
@@ -359,7 +359,7 @@ solution on its own objective, so the small gap in §8.3 is not an implementatio
 
 **(a) Two functionals, one set of designs.**
 
-| α | $F$(C16 LS) | $F$(SOTA) | $G_l/N_u$(LS) | $G_l/N_u$(SOTA) | per-user gain LS / SOTA |
+| α | $F$(this paper's LS) | $F$(SOTA) | $G_l/N_u$(LS) | $G_l/N_u$(SOTA) | per-user gain LS / SOTA |
 |---|---|---|---|---|---|
 | 0.10 | 13978.8 | **14103.9** | 21.975 | 21.649 | [18.53 25.42] / [17.76 25.53] |
 | 0.20 | 13451.7 | **13561.3** | 24.129 | 24.118 | [23.32 24.94] / [23.19 25.05] |
@@ -369,7 +369,7 @@ solution on its own objective, so the small gap in §8.3 is not an implementatio
 
 The SOTA wins on its own $F$ at every α (by 0.4–1.6%) and loses on $G_l/N_u$ below α=0.25.
 The difference is the weighting: at α=0.10 it pushes the narrow-band user down to 17.76 dB to
-buy 25.53 dB for the wide-band user, and the log-mean of C16 scores that trade as a loss.
+buy 25.53 dB for the wide-band user, and the log-mean of this paper scores that trade as a loss.
 **"The SOTA is 1.54 dB behind" is largely "design A scored by design B's metric".**
 
 **(b) Sensitivity to the definition.** The paper only says "lift [5]'s iterative algorithm to
@@ -382,12 +382,12 @@ buy 25.53 dB for the wide-band user, and the log-mean of C16 scores that trade a
 | Lemma 1, free $\angle\alpha_k$ removed | 21.577 | 21.931 | 22.380 | 22.625 |
 | eq. (8a) line search, 2.5 ns grid | 13.269 | 19.648 | 22.685 | 24.437 |
 | eq. (8a) line search, 0.25 ns grid | 16.963 | 19.377 | 22.752 | 24.506 |
-| *C16 joint LS (reference)* | *21.975* | *23.345* | *24.480* | *24.944* |
+| *this paper joint LS (reference)* | *21.975* | *23.345* | *24.480* | *24.944* |
 
 Lemma 1 gives 0.33 dB, eq. (8a) gives 8.71 dB, and the paper's 1.54 dB sits between them with
 nothing in the text to decide. Recorded as **G7** — underdetermined, not unreproducible. The
 Lemma 1 reading is taken as the main one because it is the path [5] itself recommends for
-complexity, and it is the only one that stays in the same range as C16's own solutions under
+complexity, and it is the only one that stays in the same range as this paper's own solutions under
 both metrics.
 
 Side result: the "per-element coherent sum" of eq. (8a) is a bad surrogate, because it drops
@@ -438,7 +438,7 @@ beam, not for multi-user FDM.
 | 1 | self-check gain 8.35 dB instead of 25.84 dB | `jp_nu` already contains $\pi$; the gain expression multiplied by $\pi$ again |
 | 2 | no `linprog` on the compute node | infinity norm rewritten as an exact 1-D convex problem solved by `fminbnd` |
 | 3 | Fig. 2(a) 25 dB off | raw steering value instead of the eq. (10) unwrapping |
-| 4 | Fig. 6 design converges every round but evaluates to −7.88 dB | mixed delay-sign conventions between C16 and [5] |
+| 4 | Fig. 6 design converges every round but evaluates to −7.88 dB | mixed delay-sign conventions between this paper and [5] |
 | 5 | Lemma 1 returns `RCOND = 3.4e-17` | design matrix $[1,2\pi\Delta f m]$ with a $3\times10^8$ column; change of variables |
 | 6 | GD pins τ at 200 ns, gain drops 12 dB | unbounded Adam on a 2.4%-wide feasible window |
 | 7 | GD "converges" after one iteration | the greedy convergence criterion is not scale-free |

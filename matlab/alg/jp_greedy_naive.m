@@ -1,5 +1,5 @@
 function [phi, tau, info] = jp_greedy_naive(p, az, el, alpha, opt)
-% Literal implementation of C16 Algorithm 1, used ONLY to verify that the
+% Literal implementation of Algorithm 1, used ONLY to verify that the
 % incremental-evaluation version (jp_greedy.m) is numerically identical.
 % Every candidate is scored by a full recomputation of eq. (5) through
 % jp_eval, so the cost per candidate is O(N_elem) exactly as in a direct

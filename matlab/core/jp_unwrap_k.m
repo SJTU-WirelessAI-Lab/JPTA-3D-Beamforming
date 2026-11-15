@@ -1,5 +1,5 @@
 function K = jp_unwrap_k(p, az, el)
-% Wrapping-offset integer k(y,z,i) of C16 eq. (10):
+% Wrapping-offset integer k(y,z,i) of eq. (10):
 %   k(y,z,1) = 0
 %   k(y,z,i) = k(y,z,i-1) + round( (nu_i-1 - nu_i)/(2*pi) )
 % Purpose: keep the phase gap between consecutive users below 2*pi.

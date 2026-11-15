@@ -1,5 +1,5 @@
 function [phi, tau, info] = jp_greedy(p, az, el, alpha, opt)
-% Greedy beam design of C16 Sec. III-C, i.e. Algorithm 1 (joint) and its
+% Greedy beam design , Sec. III-C, i.e. Algorithm 1 (joint) and its
 % separated counterpart.
 %
 %   opt.mode     'joint' (default) | 'sep'

@@ -1,5 +1,5 @@
 function [x1, x2] = jp_ls_fit(m, B)
-% Exact least-squares solution of A*x = B with A = [1, m] (C16 eq. (7)).
+% Exact least-squares solution of A*x = B with A = [1, m] (eq. (7)).
 % x = (A'A)^(-1) A'B.  Because the subcarrier index vector m is symmetric
 % (M+1 odd, sum(m)=0), A'A = diag(M+1, sum(m.^2)) and the solution is
 %   x1 = mean(B)                 (the paper's eq. (11))

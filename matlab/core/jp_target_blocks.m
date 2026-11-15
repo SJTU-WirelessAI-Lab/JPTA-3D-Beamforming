@@ -1,5 +1,5 @@
 function B = jp_target_blocks(p, nu_list, blk)
-% Build the right-hand side b{y,z} of C16 eqs. (8)-(9): for every antenna
+% Build the right-hand side b{y,z} of eqs. (8)-(9): for every antenna
 % element (column of B) the target phase is piecewise constant in frequency,
 % equal to nu_i (+2*pi*k_i, added by the caller) over the subcarriers
 % assigned to user i.

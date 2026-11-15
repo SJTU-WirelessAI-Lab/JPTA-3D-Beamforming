@@ -1,6 +1,6 @@
 function K = jp_unwrap_k_1d(nu_cell)
 % Same wrapping-offset recursion as jp_unwrap_k, but for a single array axis
-% (used by the "separated" design of C16 Sec. III-B).
+% (used by the "separated" design , Sec. III-B).
 % nu_cell{i} is a Na x 1 vector.
 
 Nu = numel(nu_cell);

@@ -1,5 +1,5 @@
 function R = jp_eval(p, phi, tau, az, el, blk)
-% Per-user average beamforming gain of C16 eqs. (4)-(5).
+% Per-user average beamforming gain of eqs. (4)-(5).
 %   Gmean_i = mean_{m in F_i} G(theta_i, f_m)
 %   gdb_i   = 10*log10(Gmean_i)
 %   Gl      = sum_i gdb_i          (eq. 5, the paper's objective)

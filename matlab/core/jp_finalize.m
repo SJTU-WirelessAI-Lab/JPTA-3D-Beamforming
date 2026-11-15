@@ -2,7 +2,7 @@ function [phiq, tauq, info] = jp_finalize(p, x1, x2, shape)
 % Turn an LS / inf-norm solution (x1 = phase at m=0, x2 = phase slope per
 % subcarrier) into physical, quantized PS phases and TTD delays.
 %
-% The hardware model of C16 eq. (2) is  omega = exp(j(phi + 2*pi*f_m*tau)).
+% The hardware model of eq. (2) of this paper is  omega = exp(j(phi + 2*pi*f_m*tau)).
 % Writing f_m = fc + m*df gives
 %       phi + 2*pi*f_m*tau = (phi + 2*pi*fc*tau) + 2*pi*df*tau*m
 % so the LS unknowns map to

@@ -1,5 +1,5 @@
 function [phi, tau, info] = jp_gd(p, az, el, alpha, opt)
-% Gradient-descent beam design of C16 Sec. III-D (Adam, lr = 0.1), for the
+% Gradient-descent beam design , Sec. III-D (Adam, lr = 0.1), for the
 % joint and the separated parameterisation.
 %
 %   opt.mode      'joint' (default) | 'sep'

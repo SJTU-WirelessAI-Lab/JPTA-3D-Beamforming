@@ -1,5 +1,5 @@
 function run_a7()
-% A7 of the repro plan = C16 Fig. 6 + Fig. 7 (Sec. IV-B / IV-C):
+% A7 of the repro plan = Fig. 6 + Fig. 7 (Sec. IV-B / IV-C):
 % comparison against the state of the art, i.e. Algorithm 1 of [5]
 % (Ratnam et al., IEEE Access 2022) extended from 2D to the 3D JPTA array.
 %
@@ -23,17 +23,17 @@ addpath(fullfile(here,'core'));
 addpath(fullfile(here,'alg'));
 out = fullfile(here,'out');  if ~exist(out,'dir'), mkdir(out); end
 
-p = jp_params_c16();
+p = jp_params();
 oG = struct('zeta',1e-4,'maxIter',40);
 oD = struct('mode','joint','lr',0.1,'zeta',1e-5,'win',20,'maxIter',600);
 oS = struct('variant','lemma1','taumode','mod','maxIter',10);   % primary SOTA
 
-fprintf('===== A7 : C16 Fig.6/Fig.7 -- SOTA = Algorithm 1 of [5], extended to 3D =====\n');
+fprintf('===== A7 : Fig.6/Fig.7 -- SOTA = Algorithm 1 of [5], extended to 3D =====\n');
 fprintf('array %dx%d = %d elements, M+1 = %d subcarriers, tau in [0 %.0f] ns\n', ...
         p.Naz, p.Nel, p.Nelem, p.M+1, p.tau_max*1e9);
 fprintf('SOTA: one TTD per element (N = %d), max-iter 10, omega_k = 1, free angle(a_k)\n\n', p.Nelem);
 
-Nu = 2;  [az, el] = jp_users_c16(Nu);
+Nu = 2;  [az, el] = jp_users(Nu);
 
 %% ================= Part 0 : unit checks ==================================
 fprintf('--- Part 0: unit checks of the SOTA implementation ---\n');
@@ -57,15 +57,15 @@ R0 = jp_eval(p, ph0, ta0, az, el, blk05);
 R1 = jp_eval(p, ph0, ta0 + 37e-9, az, el, blk05);
 fprintf('  (b) common delay shift 37 ns : max|dG| = %.2e dB (must be 0)\n', ...
         max(abs(R0.gdb - R1.gdb)));
-% (c) at alpha = 0.5 the SOTA must be at least as good as C16's LS on the
+% (c) at alpha = 0.5 the SOTA must be at least as good as this paper's LS on the
 %     metric it optimises, F = sum_k sqrt(G_k)
 Fls = local_F(p, ph0, ta0, az, el, blk05);
 [ps, ts, is] = jp_sota_iter(p, az, el, a05, oS);
 Rs = jp_eval(p, ps, ts, az, el, blk05);
 Fs = local_F(p, ps, ts, az, el, blk05);
-fprintf('  (c) alpha 0.5, F = sum_k sqrt(G_k): C16 LS %.1f | SOTA %.1f  (%s)\n', ...
+fprintf('  (c) alpha 0.5, F = sum_k sqrt(G_k): this paper''s LS %.1f | SOTA %.1f  (%s)\n', ...
         Fls, Fs, mat2str(Fs >= Fls - 1e-6));
-fprintf('      Gl/Nu: C16 LS %.3f dB | SOTA %.3f dB  (paper Fig.6: they coincide)\n', ...
+fprintf('      Gl/Nu: this paper''s LS %.3f dB | SOTA %.3f dB  (paper Fig.6: they coincide)\n', ...
         R0.Gl_avg, Rs.Gl_avg);
 fprintf('  (d) F history (lemma1, alpha 0.5): %s\n\n', mat2str(round(is.F,1)));
 
@@ -139,16 +139,16 @@ for k = find(avec <= 0.2 + 1e-9)
             avec(k), G(7,k), mx, lbl{others(ix)}, G(4,k), ...
             mat2str(G(7,k) > mx));
 end
-fprintf('  note: joint greedy is also above GD+separated at alpha<=0.2; C16 does not\n');
+fprintf('  note: joint greedy is also above GD+separated at alpha<=0.2; this paper does not\n');
 fprintf('        discuss it in this paragraph, see part 2.\n');
 
 %% ================= Part 2 : the 1.54 dB =================================
 fprintf('\n--- Part 2: where would 1.54 dB come from? ---\n');
 fprintf('  SOTA maximises F = sum_k sqrt(G_k) (equal weight per *subcarrier*);\n');
-fprintf('  C16 maximises Gl = sum_i log(mean_{k in F_i} G_k) (equal weight per *user*).\n');
+fprintf('  this paper maximises Gl = sum_i log(mean_{k in F_i} G_k) (equal weight per *user*).\n');
 fprintf('  With the free per-subcarrier phase of [5] eq.(5) the SOTA design is also\n');
 fprintf('  free to ignore the small-band user, so the two differ only through that weight.\n\n');
-fprintf('  alpha | F(C16 LS) F(SOTA) | Gl(LS)  Gl(SOTA) | per-user gains LS / SOTA\n');
+fprintf('  alpha | F(this paper''s LS) F(SOTA) | Gl(LS)  Gl(SOTA) | per-user gains LS / SOTA\n');
 for k = [1 3 5 7 9]
     a = [avec(k) 1-avec(k)]; bl = jp_block(p,a);
     [ph,ta] = jp_design(p, az, el, a, 'joint-ls');  Rl = jp_eval(p, ph, ta, az, el, bl);
@@ -181,13 +181,13 @@ for q = 1:numel(cfg)
     end
     fprintf('\n');
 end
-fprintf('  %-34s', 'C16 joint LS (reference)');
+fprintf('  %-34s', 'this paper joint LS (reference)');
 lsref = zeros(1,numel(avc));
 for j = 1:numel(avc)
     lsref(j) = G(1, idx_of(avec, avc(j)));
     fprintf(' %8.3f', lsref(j));
 end
-fprintf('\n\n  gap (C16 joint LS - SOTA), positive = C16 wins:\n');
+fprintf('\n\n  gap (this paper joint LS - SOTA), positive = this paper wins:\n');
 for q = 1:numel(cfg)
     fprintf('  %-34s', nmc{q});
     fprintf(' %8.2f', lsref - SEN(q,:));
@@ -198,7 +198,7 @@ fprintf('  -> with Lemma 1 (the step [5] recommends) the gap is at most %.2f dB 
 fprintf('     SOTA is actually *ahead* of the one-shot LS for alpha >= 0.25.  With the\n');
 fprintf('     exact (8a) surrogate the gap is %.2f dB at alpha = 0.10 and shrinks with\n', lsref(1)-SEN(4,1));
 fprintf('     alpha, i.e. the claimed pattern but 5x too large.  The claimed 1.54 dB sits\n');
-fprintf('     between the two, so C16''s exact SOTA is underdetermined by the text ([5]\n');
+fprintf('     between the two, so this paper''s exact SOTA is underdetermined by the text ([5]\n');
 fprintf('     says "compute tau using either (8a) or Lemma 1").  Dropping the free\n');
 fprintf('     angle(a_k) (row 3) opens the gap at LARGE alpha instead, i.e. the wrong shape.\n');
 fprintf('  -> what DOES reproduce is the shape: gap shrinks as alpha grows and vanishes\n');
@@ -231,7 +231,7 @@ end
 plot(avec, G(8,:), st{8}, 'Color', cl(8,:), 'LineWidth',2.6, 'MarkerSize',9);
 xlabel('Bandwidth allocation ratio \alpha (user 1)');
 ylabel('Average gain of the users (dB)');
-title('C16 Fig.6 reproduction: proposed solutions vs SOTA (Alg.1 of [5], 3D)');
+title('Fig.6 reproduction: proposed solutions vs SOTA (Alg.1 of [5], 3D)');
 legend(lbl{[1 5 2 3 6 4 7 8]}, 'Location','southeast');
 ylim([18.3 25.6]);
 print(fg, fullfile(out,'a7_fig6.png'), '-dpng', '-r180'); close(fg);
@@ -242,8 +242,8 @@ plot(avec, TT(8,:), '-o', 'Color', cl(8,:), 'LineWidth',1.8, 'MarkerSize',7, 'Ma
 set(gca,'YScale','log');
 xlabel('Bandwidth allocation ratio \alpha (user 1)');
 ylabel('Design time (s)');
-title('C16 Fig.7 reproduction: time complexity');
-legend({'C16 gradient descent (joint)','SOTA iterative (Alg.1 of [5])'},'Location','northeast');
+title('Fig.7 reproduction: time complexity');
+legend({'this paper gradient descent (joint)','SOTA iterative (Alg.1 of [5])'},'Location','northeast');
 ylim([min(TT([4 8],:),[],'all')*0.7, max(TT([4 8],:),[],'all')*1.6]);
 print(fg, fullfile(out,'a7_fig7_time.png'), '-dpng', '-r180'); close(fg);
 
@@ -269,13 +269,13 @@ end
 fclose(fid);
 
 fid = fopen(fullfile(out,'a7_summary.txt'),'w');
-fprintf(fid,'C16 A7 (Fig.6 + Fig.7): SOTA = Algorithm 1 of [5], extended to 3D   [nanyangnorth]\n\n');
+fprintf(fid,'A7 (Fig.6 + Fig.7): SOTA = Algorithm 1 of [5], extended to 3D   [nanyangnorth]\n\n');
 fprintf(fid,'SOTA setup: N = %d TTDs (one per element), max-iter 10, omega_k = 1, free angle(a_k)\n', p.Nelem);
 fprintf(fid,'unit check: 1 user, whole band -> mean G %.3f dB (ideal %.3f), worst subcarrier %.3f dB\n', ...
         R1u.Gl_avg, 10*log10(p.Nelem), 10*log10(min(g1)));
 fprintf(fid,'unit check: common tau shift 37 ns changes gain by %.1e dB (must be 0)\n', ...
         max(abs(R0.gdb-R1.gdb)));
-fprintf(fid,'unit check: F(SOTA) %.1f >= F(C16 LS) %.1f on the SOTA metric (alpha=0.5)\n', Fs, Fls);
+fprintf(fid,'unit check: F(SOTA) %.1f >= F(this paper''s LS) %.1f on the SOTA metric (alpha=0.5)\n', Fs, Fls);
 fprintf(fid,'\nFig.6 average gain (dB), rows = alpha %.2f..%.2f step 0.05:\n', avec(1), avec(end));
 for k = 1:nL
     fprintf(fid,'  %-18s %s\n', lbl{k}, mat2str(round(G(k,:),3)));
@@ -285,14 +285,14 @@ fprintf(fid,'\nclaim 1 "up to 1.54 dB for alpha<=0.35": ours %+.2f dB (Lemma 1) 
 fprintf(fid,'claim 2 "converge for alpha>0.35": joint spread %s dB  -> reproduced\n', mat2str(round(spr,2)));
 fprintf(fid,'claim 3 "alpha<=0.2: GDsep beats all but GDjoint": %s\n', ...
         mat2str(all(G(7,avec<=0.2+1e-9) > max(G([1 2 5 8],avec<=0.2+1e-9),[],1))));
-fprintf(fid,'  (except joint greedy, which C16 omits from that sentence)\n');
+fprintf(fid,'  (except joint greedy, which this paper omits from that sentence)\n');
 fprintf(fid,'\nSOTA definition sensitivity (Gl/Nu, dB):\n');
 fprintf(fid,'  %-34s %8s %8s %8s %8s\n','variant','a=0.10','a=0.15','a=0.25','a=0.50');
 for q = 1:numel(cfg)
     fprintf(fid,'  %-34s %8.3f %8.3f %8.3f %8.3f\n', nmc{q}, SEN(q,:));
 end
-fprintf(fid,'  %-34s %8.3f %8.3f %8.3f %8.3f\n','C16 joint LS', G(1,[1 2 4 9]));
-fprintf(fid,'gap (C16 joint LS - SOTA), positive = C16 wins:\n');
+fprintf(fid,'  %-34s %8.3f %8.3f %8.3f %8.3f\n','this paper joint LS', G(1,[1 2 4 9]));
+fprintf(fid,'gap (this paper joint LS - SOTA), positive = this paper wins:\n');
 for q = 1:numel(cfg)
     fprintf(fid,'  %-34s %8.2f %8.2f %8.2f %8.2f\n', nmc{q}, lsref - SEN(q,:));
 end
@@ -311,7 +311,7 @@ end
 function F = local_F(p, phi, tau, az, el, blk)
 % [5] eq.(4) with angle(a_k) optimised away:
 %   F = sum_k omega_k |bbar_k^H T P d_k| = sum_k sqrt(G_k),  omega_k = 1
-% This is the quantity the SOTA algorithm maximises; the C16 metric (jp_eval)
+% This is the quantity the SOTA algorithm maximises; this paper's metric (jp_eval)
 % is a different functional of the same design.
 Nu = numel(az);  m = jp_mvec(p);  f = p.fc + m*p.df;
 F  = 0;

@@ -1,5 +1,5 @@
 function run_a45()
-% A4 / A5 of the repro plan = C16 Figs. 3 and 4.
+% A4 / A5 of the repro plan = Figs. 3 and 4.
 %   A4: max-over-subcarriers gain in the (azimuth, elevation) plane for the
 %       separated and the joint LS design, Nu = 5, equal BW allocation.
 %   A5: gain in the (azimuth, frequency) plane at theta_el = 105 deg for the
@@ -14,16 +14,16 @@ addpath(fullfile(here,'core'));
 addpath(fullfile(here,'alg'));
 out = fullfile(here,'out'); if ~exist(out,'dir'), mkdir(out); end
 
-p  = jp_params_c16();
+p  = jp_params();
 Nu = 5;
-[az, el] = jp_users_c16(Nu);
+[az, el] = jp_users(Nu);
 a  = ones(1,Nu)/Nu;
 bl = jp_block(p, a);
 mm = jp_mvec(p);  fm = p.fc + mm*p.df;
 
 i3 = 3;
 sel3 = (bl == i3);
-fprintf('===== A4 / A5 : C16 Figs. 3 and 4 (Nu=%d, equal BW) =====\n', Nu);
+fprintf('===== A4 / A5 : Figs. 3 and 4 (Nu=%d, equal BW) =====\n', Nu);
 fprintf('user 3 band: m = %d..%d  ->  [%.2f, %.2f] MHz\n', ...
         mm(find(sel3,1,'first')), mm(find(sel3,1,'last')), ...
         mm(find(sel3,1,'first'))*p.df/1e6, mm(find(sel3,1,'last'))*p.df/1e6);
@@ -44,7 +44,7 @@ plot([-9.48 -9.48], [-60 60], 'r-', 'LineWidth',2);
 plot([ 9.48  9.48], [-60 60], 'r-', 'LineWidth',2);
 xlabel('Subcarrier frequency offset (MHz)');
 ylabel('Azimuth (deg)');
-title(sprintf('C16 Fig.4 reproduction: joint LS, \\theta_{el}=105^\\circ, user 3 at (0^\\circ,105^\\circ)'));
+title(sprintf('Fig.4 reproduction: joint LS, \\theta_{el}=105^\\circ, user 3 at (0^\\circ,105^\\circ)'));
 caxis([8 26]); xlim([-48 48]);
 print(fg, fullfile(out,'a5_az_freq_joint.png'), '-dpng', '-r180');
 close(fg);
@@ -73,7 +73,7 @@ for mi = 1:2
     cb = colorbar; cb.Label.String = 'max gain over subcarriers (dB)';
     plot(el, az, 'rd', 'MarkerSize',10, 'MarkerFaceColor','r');
     xlabel('Elevation (deg)'); ylabel('Azimuth (deg)');
-    title(sprintf('C16 Fig.3 reproduction (%s LS), N_u=%d, red = desired users', tag{mi}, Nu));
+    title(sprintf('Fig.3 reproduction (%s LS), N_u=%d, red = desired users', tag{mi}, Nu));
     caxis([5 26]);
     print(fg, fullfile(out, sprintf('a4_pattern_%s.png', tag{mi})), '-dpng', '-r180');
     close(fg);
