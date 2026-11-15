@@ -1,6 +1,9 @@
 # 复现报告 —— 3D Beamforming Through Joint Phase-Time Arrays
 
-论文：O. Yildiz, A. AlAmmouri, J. Mo, Y. Nam, E. Erkip, J. Zhang，arXiv:2401.00819v3（2024年8月）。
+论文：O. Yildiz, A. AlAmmouri, J. Mo, Y. Nam, E. Erkip, J. Zhang，
+"3D Beamforming Through Joint Phase-Time Arrays"，载于*2024 IEEE 100th Vehicular Technology
+Conference (VTC2024-Fall)*，Washington, DC, USA，2024年10月，第1–7页，
+DOI 10.1109/VTC2024-Fall63153.2024.10757955，IEEE Xplore 10757955。
 
 环境：MATLAB R2026b Update 1，Windows 11，16线程，32 GB，未使用任何工具箱。
 缺口编号**G1–G9**仅在本仓库内使用。

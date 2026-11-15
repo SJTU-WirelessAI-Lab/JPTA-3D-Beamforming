@@ -5,7 +5,10 @@
 MATLAB reproduction of all simulation results in:
 
 > O. Yildiz, A. AlAmmouri, J. Mo, Y. Nam, E. Erkip, J. Zhang,
-> "3D Beamforming Through Joint Phase-Time Arrays", arXiv:2401.00819v3, Aug. 2024.
+> "3D Beamforming Through Joint Phase-Time Arrays", in *Proc. 2024 IEEE 100th Vehicular
+> Technology Conference (VTC2024-Fall)*, Washington, DC, USA, 7-10 Oct. 2024, pp. 1-7.
+> DOI [10.1109/VTC2024-Fall63153.2024.10757955](https://doi.org/10.1109/VTC2024-Fall63153.2024.10757955)
+> &middot; [IEEE Xplore](https://ieeexplore.ieee.org/document/10757955)
 
 A joint phase-time array (JPTA) puts one true-time-delay (TTD) unit behind each antenna
 element, so the analog beam becomes frequency dependent and a single RF chain can serve
@@ -27,7 +30,7 @@ not reproduce exactly.
 
 - Result report (per-figure tables, gap list, pitfalls): [`REPORT.md`](REPORT.md) ([中文](REPORT.zh.md))
 - Simulation code: [`matlab/`](matlab/)
-- Paper: `3D Beamforming Through Joint Phase-Time Arrays (arXiv 2401.00819).pdf`
+- Paper: `3D Beamforming Through Joint Phase-Time Arrays (IEEE VTC2024-Fall).pdf`
 
 ---
 
@@ -327,7 +330,7 @@ The same group's two other JPTA papers are reproduced in the same style:
 | Repository | Paper | What it adds |
 |---|---|---|
 | `JPTA-Paradigm` | Ratnam et al., *Joint Phase-Time Arrays: A Paradigm for Frequency-Dependent Analog Beamforming in 6G*, IEEE Access 2022 | the original JPTA formulation, Algorithms 1–3, the HBF comparison; **this is ref. [5] of the present paper** |
-| `JPTA-System-Design` | Mo et al., *Beamforming with Joint Phase and Time Array: System Design, Prototyping and Performance*, arXiv:2502.00139 | 2-D type-1/type-2 codebooks, TTD resolution, system-level throughput |
+| `JPTA-System-Design` | Mo et al., *Beamforming with Joint Phase and Time Array: System Design, Prototyping and Performance*, IEEE Asilomar Conf. 2024 | 2-D type-1/type-2 codebooks, TTD resolution, system-level throughput |
 | `JPTA-Uplink-Coverage` | AlAmmouri et al., *Extending Uplink Coverage of mmWave and Terahertz Systems Through JPTA*, IEEE Access 2022 | uplink link budget, HARQ, coverage radius scaling |
 
 The three differ in array, in what the design variables are and in what is being maximised,
@@ -348,12 +351,16 @@ so each has its own kernel; the models are compared in [`REPORT.md`](REPORT.md) 
 ## Citation
 
 ```bibtex
-@article{yildiz2024jpta3d,
-  title   = {3D Beamforming Through Joint Phase-Time Arrays},
-  author  = {Yildiz, Ozlem and AlAmmouri, Ahmad and Mo, Jianhua and Nam, Younghan
-             and Erkip, Elza and Zhang, Jianzhong},
-  journal = {arXiv preprint arXiv:2401.00819},
-  year    = {2024}
+@inproceedings{yildiz2024jpta3d,
+  title     = {3D Beamforming Through Joint Phase-Time Arrays},
+  author    = {Yildiz, Ozlem and AlAmmouri, Ahmad and Mo, Jianhua and Nam, Younghan
+               and Erkip, Elza and Zhang, Jianzhong},
+  booktitle = {2024 IEEE 100th Vehicular Technology Conference (VTC2024-Fall)},
+  address   = {Washington, DC, USA},
+  pages     = {1--7},
+  month     = oct,
+  year      = {2024},
+  doi       = {10.1109/VTC2024-Fall63153.2024.10757955}
 }
 ```
 

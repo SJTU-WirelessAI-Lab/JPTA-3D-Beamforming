@@ -1,6 +1,7 @@
 function p = jp_params_c16()
 % Parameters of C16: Yildiz et al., "3D Beamforming Through Joint Phase-Time
-% Arrays", VTC2024-Fall, arXiv:2401.00819v3. Table I (default values).
+% Arrays", IEEE VTC2024-Fall, pp. 1-7, doi:10.1109/VTC2024-Fall63153.2024.10757955.
+% Table I (default values).
 %
 % All frequencies in Hz, delays in seconds, angles in degrees.
 

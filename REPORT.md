@@ -1,6 +1,9 @@
 # Reproduction report — 3D Beamforming Through Joint Phase-Time Arrays
 
-Paper: O. Yildiz, A. AlAmmouri, J. Mo, Y. Nam, E. Erkip, J. Zhang, arXiv:2401.00819v3 (Aug. 2024).
+Paper: O. Yildiz, A. AlAmmouri, J. Mo, Y. Nam, E. Erkip, J. Zhang, "3D Beamforming Through
+Joint Phase-Time Arrays", in *Proc. 2024 IEEE 100th Vehicular Technology Conference
+(VTC2024-Fall)*, Washington, DC, USA, Oct. 2024, pp. 1-7.
+DOI 10.1109/VTC2024-Fall63153.2024.10757955, IEEE Xplore 10757955.
 
 Environment: MATLAB R2026b Update 1, Windows 11, 16 threads, 32 GB. No toolbox is used.
 Gap numbers **G1–G9** are local to this repository.

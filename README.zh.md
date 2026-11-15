@@ -5,7 +5,11 @@
 本文复现以下论文的全部仿真结果：
 
 > O. Yildiz, A. AlAmmouri, J. Mo, Y. Nam, E. Erkip, J. Zhang,
-> "3D Beamforming Through Joint Phase-Time Arrays", arXiv:2401.00819v3, 2024年8月.
+> "3D Beamforming Through Joint Phase-Time Arrays"，
+> 载于*2024 IEEE 100th Vehicular Technology Conference (VTC2024-Fall)*，
+> Washington, DC, USA，2024年10月7–10日，第1–7页。
+> DOI [10.1109/VTC2024-Fall63153.2024.10757955](https://doi.org/10.1109/VTC2024-Fall63153.2024.10757955)
+> &middot; [IEEE Xplore](https://ieeexplore.ieee.org/document/10757955)
 
 联合相位-时延阵列（JPTA）在每个天线阵元后接一个真时延（TTD）单元，使模拟波束具有频率相关性，
 于是一个射频通道就能以频分方式同时服务多个不同方向的用户。本文处理的是早期一维"彩虹波束"工作
@@ -20,7 +24,7 @@
 
 - 对照报告（逐图表格、缺口清单、实现坑）：[`REPORT.zh.md`](REPORT.zh.md)（[English](REPORT.md)）
 - 仿真代码：[`matlab/`](matlab/)
-- 论文原文：`3D Beamforming Through Joint Phase-Time Arrays (arXiv 2401.00819).pdf`
+- 论文原文：`3D Beamforming Through Joint Phase-Time Arrays (IEEE VTC2024-Fall).pdf`
 
 ---
 
@@ -303,7 +307,7 @@ $\tau_n$"，而这两条路在本问题里相差8 dB（缺口**G7**）。
 | 仓库 | 论文 | 补充内容 |
 |---|---|---|
 | `JPTA-Paradigm` | Ratnam等，*Joint Phase-Time Arrays: A Paradigm for Frequency-Dependent Analog Beamforming in 6G*，IEEE Access 2022 | JPTA原始框架、Algorithm 1–3、与HBF的对比；**即本论文的文献[5]** |
-| `JPTA-System-Design` | Mo等，*Beamforming with Joint Phase and Time Array: System Design, Prototyping and Performance*，arXiv:2502.00139 | 二维type-1/type-2码本、TTD分辨率、系统级吞吐 |
+| `JPTA-System-Design` | Mo等，*Beamforming with Joint Phase and Time Array: System Design, Prototyping and Performance*，IEEE Asilomar Conf. 2024 | 二维type-1/type-2码本、TTD分辨率、系统级吞吐 |
 | `JPTA-Uplink-Coverage` | AlAmmouri等，*Extending Uplink Coverage of mmWave and Terahertz Systems Through JPTA*，IEEE Access 2022 | 上行链路预算、HARQ、覆盖半径标度 |
 
 三者的阵列、设计变量与优化目标都不同，因此各自有独立内核；模型对照见
@@ -323,12 +327,16 @@ $\tau_n$"，而这两条路在本问题里相差8 dB（缺口**G7**）。
 ## 引用
 
 ```bibtex
-@article{yildiz2024jpta3d,
-  title   = {3D Beamforming Through Joint Phase-Time Arrays},
-  author  = {Yildiz, Ozlem and AlAmmouri, Ahmad and Mo, Jianhua and Nam, Younghan
-             and Erkip, Elza and Zhang, Jianzhong},
-  journal = {arXiv preprint arXiv:2401.00819},
-  year    = {2024}
+@inproceedings{yildiz2024jpta3d,
+  title     = {3D Beamforming Through Joint Phase-Time Arrays},
+  author    = {Yildiz, Ozlem and AlAmmouri, Ahmad and Mo, Jianhua and Nam, Younghan
+               and Erkip, Elza and Zhang, Jianzhong},
+  booktitle = {2024 IEEE 100th Vehicular Technology Conference (VTC2024-Fall)},
+  address   = {Washington, DC, USA},
+  pages     = {1--7},
+  month     = oct,
+  year      = {2024},
+  doi       = {10.1109/VTC2024-Fall63153.2024.10757955}
 }
 ```
 
