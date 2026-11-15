@@ -41,7 +41,7 @@ not reproduce exactly.
 | Fig. 4 | azimuth–frequency heat map, 5 UEs | User 3 is confined to **[−9.48, 9.48] MHz** (paper: [−9.5, 9.5)), in-band 22.04 dB, out-of-band 8.14 dB |
 | Fig. 5 | greedy (Algorithm 1) and Adam gradient descent, joint/separated | End points reproduced to **≤0.4 dB per user**; greedy ≡ Algorithm 1 verified to 3.6e−14; the paper's "+2.26/+2.11 dB over the start point" does not reproduce (gap **G5**) |
 | Fig. 6 | comparison against Algorithm 1 of ref. [5] | Shape and qualitative claims hold, but the claimed "up to **1.54 dB**" comes out as **0.33 dB** (gap **G7**) |
-| Fig. 7 | run time, gradient descent vs the SOTA iteration | Ratio **7.6–23.7×** (paper 5.5×); the claim "at least 5×" holds, absolute times are implementation-specific |
+| Fig. 7 | run time, gradient descent vs the SOTA iteration | Ratio **8.5–23.4×** (paper 5.5×); the claim "at least 5×" holds, absolute times are implementation-specific |
 
 Two claims are checked in a form that does not depend on reading numbers off a plot:
 
@@ -58,19 +58,20 @@ Two claims are checked in a form that does not depend on reading numbers off a p
 
 ```matlab
 cd matlab
-run_all              % self-check and all seven experiments, about 6 min
+run_all              % self-check and all seven experiments, about 5 min
 ```
 
-Single experiment (each job rewrites only its own files in `matlab/out/`):
+Single experiment (each job rewrites only its own files in `matlab/out/`; timings on a
+16-thread node, and they move by up to 2× with node load — nothing below depends on them):
 
 ```matlab
 run_all('selftest')   % kernel self-check, 4 invariants          ~1 s
 run_all('fig2a')      % Fig. 2(a): 2 UEs, gain vs alpha          ~12 s
-run_all('fig2b')      % Fig. 2(b): 5 UEs, per-user gain          ~11 s
-run_all('fig3')       % Fig. 3 and Fig. 4                        ~27 s
-run_all('fig5')       % Fig. 5: greedy and Adam GD               ~3.6 min
-run_all('fig5conv')   % only the equivalence and start-point checks ~1.5 min
-run_all('fig6')       % Fig. 6 and Fig. 7 (needs no other job)   ~2.0 min
+run_all('fig2b')      % Fig. 2(b): 5 UEs, per-user gain          ~3 s
+run_all('fig3')       % Fig. 3 and Fig. 4                        ~19 s
+run_all('fig5')       % Fig. 5: greedy and Adam GD               ~2.3 min
+run_all('fig5conv')   % only the equivalence and start-point checks ~40 s
+run_all('fig6')       % Fig. 6 and Fig. 7 (needs no other job)   ~70 s
 ```
 
 All parameters are in `matlab/core/jp_params_c16.m` (one struct, every entry annotated with
@@ -255,7 +256,7 @@ a weakened straw man.
 | for α > 0.35 all joint designs converge to the same outcome | qualitative | **holds**: spread of the five joint methods is 0.22 / 0.24 / 0.35 dB |
 | for α ≤ 0.35 the one-shot analytical design beats the SOTA by up to 1.54 dB | 1.54 dB | **0.33 dB** — not reproduced, gap **G7** |
 | for α ≤ 0.2, GD + separated beats everything but GD + joint | qualitative | **holds** (24.28 vs 23.73 dB at α=0.10) |
-| GD is at least 5× slower than the SOTA iteration | ≥5× | **7.6–23.7×**, mean 12.8× (paper 5.5×) |
+| GD is at least 5× slower than the SOTA iteration | ≥5× | **8.5–23.4×**, mean 12.5× (paper 5.5×) |
 
 The missing 1.54 dB is the one number in this paper that does not come out, and the reason is
 diagnosable: the two designs optimise different functionals ($\sum_k\sqrt{G_k}$, every

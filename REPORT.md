@@ -5,6 +5,11 @@ Paper: O. Yildiz, A. AlAmmouri, J. Mo, Y. Nam, E. Erkip, J. Zhang, arXiv:2401.00
 Environment: MATLAB R2026b Update 1, Windows 11, 16 threads, 32 GB. No toolbox is used.
 Gap numbers **G1–G9** are local to this repository.
 
+**Reproducibility.** The whole tree was re-run from a fresh copy (`run_all`, 4.6 min). Every
+gain, objective and iteration count came out identical to the first run; only the wall-clock
+columns of `a6_fig5a.csv`, `a6_fig5b.csv`, `a7_fig7.csv` and the two `*_summary.txt` lines that
+quote run time moved, which is why the run-time claims in §6 are quoted as ranges.
+
 ---
 
 ## 1 What is covered
@@ -181,11 +186,11 @@ and "different implementation" cannot be told apart.**
 | Design | U1 | U2 | U3 | U4 | Mean | Iterations | Time |
 |---|---|---|---|---|---|---|---|
 | joint LS (start) | 23.27 | 21.76 | 21.36 | 23.19 | 22.394 | – | 0.01 s |
-| joint greedy | 23.36 | 22.24 | 21.94 | 23.30 | **22.709** | 4 | 10.4 s |
-| joint GD | 23.89 | 22.10 | 21.77 | 23.73 | **22.874** | 194 | 8.2 s |
+| joint greedy | 23.36 | 22.24 | 21.94 | 23.30 | **22.709** | 4 | 9.9 s |
+| joint GD | 23.89 | 22.10 | 21.77 | 23.73 | **22.874** | 194 | 6.0 s |
 | separated LS (start) | 21.43 | 21.68 | 18.20 | 20.92 | 20.559 | – | 0.01 s |
-| separated greedy | 22.30 | 20.91 | 21.02 | 22.12 | **21.587** | 8 | 2.3 s |
-| separated GD | 22.55 | 20.50 | 18.59 | 22.15 | 20.949 | 77 | 0.4 s |
+| separated greedy | 22.30 | 20.91 | 21.02 | 22.12 | **21.587** | 8 | 2.0 s |
+| separated GD | 22.55 | 20.50 | 18.59 | 22.15 | 20.949 | 77 | 0.3 s |
 | *paper* joint greedy | 23.35 | 22.25 | 21.90 | 23.05 | *22.64* | | |
 | *paper* joint GD | 23.50 | 21.85 | 21.70 | 23.45 | *22.62* | | |
 | *paper* separated greedy | 21.70 | 21.10 | 21.10 | 22.35 | *21.56* | | |
@@ -221,16 +226,19 @@ sits at 24.0–24.4 dB and is even flatter.
 |---|---|
 | one evaluation of eq. (5) (16×24 array, 793 subcarriers, 4 users) | 6.8 ms |
 | literal Algorithm 1: $145\times384=55\,680$ evaluations per round | **381 s / round** |
-| incremental implementation | 2.60 s / round (4 rounds, 10.4 s) |
-| Adam GD | 0.042 s / iteration (194 iterations, 8.2 s) |
-| **literal Alg. 1 / GD** | **187×** (paper: about 250×) |
-| greedy / GD, both implemented well | **1.3×** |
+| incremental implementation | 2.48 s / round (4 rounds, 9.9 s) |
+| Adam GD | 0.031 s / iteration (194 iterations, 6.0 s) |
+| **literal Alg. 1 / GD** | **219×** (paper: about 250×) |
+| greedy / GD, both implemented well | **1.6×** |
 
 The paper's 250× matches a naive implementation that recomputes the whole array per candidate.
 Put the incremental evaluation in, and the same algorithm at the same iterates collapses to
-1.3×. **That claim constrains the cost model, not the convergence speed.** (Absolute times:
-GD 8.2 s here vs 1.05 s in the paper — machine and MATLAB overhead; GD time varies 6.0–8.2 s
-between runs, so the ratio varies 187–227×. Only quote the order of magnitude.)
+1.6×. **That claim constrains the cost model, not the convergence speed.** (Absolute times:
+GD 6.0 s here vs 1.05 s in the paper — machine and MATLAB overhead. Wall-clock is the one thing
+here that is not reproducible: across two full runs of the same code GD took 6.0 and 8.2 s and
+the literal sweep 1320 and 1520 s, so `literal / GD` came out 219× and 187×, `greedy / GD` 1.6×
+and 1.3×. Only the order of magnitude is a result; the numbers in the tables are the ones in
+`out/a6_summary.txt`, i.e. the second run, which is the run the committed files come from.)
 
 ### 7.5 Where "+2.26 / +2.11 dB" comes from (G5)
 

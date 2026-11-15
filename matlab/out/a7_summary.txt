@@ -35,4 +35,4 @@ gap (C16 joint LS - SOTA), positive = C16 wins:
   (8a) line search, 2.5 ns grid          8.71     3.70     1.80     0.51
   (8a) line search, 0.25 ns grid         5.01     3.97     1.73     0.44
 
-runtime mean: GD 1.98 s, SOTA 0.15 s, ratio 12.8x  (paper 1.05/5.80 = 5.5x)
+runtime mean: GD 1.57 s, SOTA 0.13 s, ratio 12.5x  (paper 1.05/5.80 = 5.5x)
