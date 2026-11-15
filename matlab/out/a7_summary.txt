@@ -1,0 +1,38 @@
+C16 A7 (Fig.6 + Fig.7): SOTA = Algorithm 1 of [5], extended to 3D   [nanyangnorth]
+
+SOTA setup: N = 384 TTDs (one per element), max-iter 10, omega_k = 1, free angle(a_k)
+unit check: 1 user, whole band -> mean G 25.821 dB (ideal 25.843), worst subcarrier 25.798 dB
+unit check: common tau shift 37 ns changes gain by 1.7e-13 dB (must be 0)
+unit check: F(SOTA) 14047.0 >= F(C16 LS) 13928.3 on the SOTA metric (alpha=0.5)
+
+Fig.6 average gain (dB), rows = alpha 0.10..0.50 step 0.05:
+  Joint LS           [21.975 23.345 24.129 24.48 24.708 24.848 24.901 24.935 24.944]
+  Joint inf-norm     [23.734 23.929 24.154 24.351 24.555 24.697 24.784 24.778 24.671]
+  Joint greedy       [24.69 24.729 24.786 24.835 24.874 24.906 24.927 24.94 24.944]
+  Joint GD           [24.792 24.84 24.885 24.924 24.958 24.985 25.005 25.017 25.021]
+  Separated LS       [18.634 20.678 22.439 23.402 23.925 24.109 24.242 24.29 24.312]
+  Separated greedy   [23.768 24.065 24.193 24.23 24.239 24.273 24.299 24.308 24.312]
+  Separated GD       [24.28 24.32 24.354 24.38 24.4 24.415 24.424 24.429 24.43]
+  SOTA iterative     [21.649 23.245 24.118 24.578 24.822 24.94 24.994 25.017 25.021]
+
+claim 1 "up to 1.54 dB for alpha<=0.35": ours +0.33 dB (Lemma 1) / 8.71 dB ((8a))
+claim 2 "converge for alpha>0.35": joint spread [0.22 0.24 0.35] dB  -> reproduced
+claim 3 "alpha<=0.2: GDsep beats all but GDjoint": true
+  (except joint greedy, which C16 omits from that sentence)
+
+SOTA definition sensitivity (Gl/Nu, dB):
+  variant                              a=0.10   a=0.15   a=0.25   a=0.50
+  Lemma1, eq.(10a) wrap  [faithful]    21.649   23.245   24.578   25.021
+  Lemma1, clip to range                21.402   22.968   24.440   24.997
+  Lemma1, no free angle(a_k)           21.577   21.931   22.380   22.625
+  (8a) line search, 2.5 ns grid        13.269   19.648   22.685   24.437
+  (8a) line search, 0.25 ns grid       16.963   19.377   22.752   24.506
+  C16 joint LS                         21.975   23.345   24.480   24.944
+gap (C16 joint LS - SOTA), positive = C16 wins:
+  Lemma1, eq.(10a) wrap  [faithful]      0.33     0.10    -0.10    -0.08
+  Lemma1, clip to range                  0.57     0.38     0.04    -0.05
+  Lemma1, no free angle(a_k)             0.40     1.41     2.10     2.32
+  (8a) line search, 2.5 ns grid          8.71     3.70     1.80     0.51
+  (8a) line search, 0.25 ns grid         5.01     3.97     1.73     0.44
+
+runtime mean: GD 1.98 s, SOTA 0.15 s, ratio 12.8x  (paper 1.05/5.80 = 5.5x)

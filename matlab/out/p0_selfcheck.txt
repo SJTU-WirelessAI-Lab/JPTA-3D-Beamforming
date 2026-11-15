@@ -1,0 +1,5 @@
+P0-1 single-user degenerates to PAA	1	tau=0.0e+00, gain=25.839 dB, ripple=0.003 dB
+P0-2 gain <= 10log10(Naz*Nel)	1	max 25.8433 dB vs limit 25.8433 dB
+P0-3 ULA: joint == separated	1	dGain=0.00e+00 dB
+P0-4 delay within tau_max	1	spans [15.5 33.8 78 133.9] ns
+ALL_PASS	1
