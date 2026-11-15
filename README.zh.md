@@ -302,7 +302,7 @@ $\tau_n$"，而这两条路在本问题里相差8 dB（缺口**G7**）。
 
 | 仓库 | 论文 | 补充内容 |
 |---|---|---|
-| `JPTA2022` | Ratnam等，*Joint Phase-Time Arrays: A Paradigm for Frequency-Dependent Analog Beamforming in 6G*，IEEE Access 2022 | JPTA原始框架、Algorithm 1–3、与HBF的对比；**即本论文的文献[5]** |
+| `JPTA-Paradigm` | Ratnam等，*Joint Phase-Time Arrays: A Paradigm for Frequency-Dependent Analog Beamforming in 6G*，IEEE Access 2022 | JPTA原始框架、Algorithm 1–3、与HBF的对比；**即本论文的文献[5]** |
 | `JPTA-System-Design` | Mo等，*Beamforming with Joint Phase and Time Array: System Design, Prototyping and Performance*，arXiv:2502.00139 | 二维type-1/type-2码本、TTD分辨率、系统级吞吐 |
 | `JPTA-Uplink-Coverage` | AlAmmouri等，*Extending Uplink Coverage of mmWave and Terahertz Systems Through JPTA*，IEEE Access 2022 | 上行链路预算、HARQ、覆盖半径标度 |
 

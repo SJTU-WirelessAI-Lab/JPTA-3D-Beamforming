@@ -326,7 +326,7 @@ The same group's two other JPTA papers are reproduced in the same style:
 
 | Repository | Paper | What it adds |
 |---|---|---|
-| `JPTA2022` | Ratnam et al., *Joint Phase-Time Arrays: A Paradigm for Frequency-Dependent Analog Beamforming in 6G*, IEEE Access 2022 | the original JPTA formulation, Algorithms 1–3, the HBF comparison; **this is ref. [5] of the present paper** |
+| `JPTA-Paradigm` | Ratnam et al., *Joint Phase-Time Arrays: A Paradigm for Frequency-Dependent Analog Beamforming in 6G*, IEEE Access 2022 | the original JPTA formulation, Algorithms 1–3, the HBF comparison; **this is ref. [5] of the present paper** |
 | `JPTA-System-Design` | Mo et al., *Beamforming with Joint Phase and Time Array: System Design, Prototyping and Performance*, arXiv:2502.00139 | 2-D type-1/type-2 codebooks, TTD resolution, system-level throughput |
 | `JPTA-Uplink-Coverage` | AlAmmouri et al., *Extending Uplink Coverage of mmWave and Terahertz Systems Through JPTA*, IEEE Access 2022 | uplink link budget, HARQ, coverage radius scaling |
 
